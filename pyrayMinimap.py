@@ -1,18 +1,14 @@
 """
 The MIT License (MIT)
-
 Copyright (c) 2013 Oscar Utbult
-
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
-
 The above copyright notice and this permission notice shall be included in
 all copies or substantial portions of the Software.
-
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -27,6 +23,9 @@ try:
     import time
     import pygame
     from pygame.locals import *
+    import numpy as np
+    import time
+    import threading
 
 except ImportError:
     print "PyRay could not import necessary modules"
@@ -36,35 +35,77 @@ keys=[False]*324
 
 # A map over the world
 worldMap =  [
-            [1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-            [2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 0, 2, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 2, 3, 2, 3, 0, 0, 2],
-            [2, 0, 3, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-            [2, 3, 1, 0, 0, 2, 0, 0, 0, 2, 3, 2, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 2, 0, 0, 0, 2],
-            [2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 0, 2, 1, 0, 0, 0, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 1, 0, 0, 0, 0, 0, 0, 0, 2],
-            [2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 0, 2, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-            [2, 0, 3, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2, 3, 2, 1, 2, 0, 1],
-            [1, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 2],
-            [2, 3, 1, 0, 0, 2, 0, 0, 2, 1, 3, 2, 0, 2, 0, 0, 3, 0, 3, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 1, 0, 0, 2, 0, 0, 2],
-            [2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 3, 0, 1, 2, 0, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 3, 0, 2],
-            [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 1],
-            [2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1]]
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+            [1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1],
+            [1, 0, 0, 2, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 1, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
+            
+
+
+           
+miniMap = np.zeros([20, 20])
+tempArray = [1,1000] 
 
 # Closes the program 
 def close(): 
     pygame.display.quit()
     pygame.quit()
 
+def miniMapUpdate(locationData, miniMap):
+    count = 0
+    data = locationData
+    for i in data:
+        viewX = int(i[0])
+        viewY = int(i[1])
+        rayX = int(i[2])
+        rayY = int(i[3])
+       
+        #miniMap[viewX, viewY] = 4
+         
+        miniMap[rayX, rayY] = 1
+        
+        while viewX != rayX or viewY != rayY:
+            if viewX != rayX:
+                if viewX < rayX:
+                    rayX -= 1
+                else:
+                    rayX += 1
+            if viewY!= rayY: 
+                if viewY < rayY:
+                    rayY -= 1
+                else:
+                    rayY += 1
+                
+            if int(miniMap[rayX, rayY]) != 1:
+                miniMap[rayX, rayY] = 3
+            
+            
+def miniMapDecay():
+    threading.Timer(5.0, miniMapDecay).start()
+    miniMap[miniMap >= 3] += 1
+    miniMap[miniMap >= 9] = 0
+    print(miniMap)
+    
+
 def main():
     pygame.init()
-
+    miniMapDecay()
     # Head Up Display information (HUD)
     font = pygame.font.SysFont("Verdana",20)
     HUD = font.render("F1 / F2 - Screenshot JPEG/BMP   F5/F6 - Shadows on/off   F7/F8 - HUD Show/Hide", True, (0,0,0))
@@ -79,11 +120,11 @@ def main():
     showHUD = True    
     
     # Defines starting position and direction
-    positionX = 3.0
-    positionY = 7.0
+    positionX = 10.0
+    positionY = 10.0
 
     directionX = 1.0
-    directionY = 0.0
+    directionY = 1.0
 
     planeX = 0.0
     planeY = 0.5
@@ -97,9 +138,13 @@ def main():
     ITGM = (math.cos(-ROTATIONSPEED), math.sin(-ROTATIONSPEED))
     COS, SIN = (0,1)
     
+
+    tempArray = [] 
     while True:
         # Catches user input
         # Sets keys[key] to True or False
+
+
         for event in pygame.event.get():
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
@@ -171,12 +216,16 @@ def main():
         pygame.draw.rect(screen, (50,50,50), (0, HEIGHT/2, WIDTH, HEIGHT/2)) 
                 
         # Starts drawing level from 0 to < WIDTH 
-        column = 0        
+        column = 0
+        if tempArray!= []:
+            miniMapUpdate(tempArray, miniMap)
+              
+        tempArray = []     
         while column < WIDTH:
             cameraX = 2.0 * column / WIDTH - 1.0
             rayPositionX = positionX
             rayPositionY = positionY
-            rayDirectionX = directionX + planeX * cameraX
+            rayDirectionX = directionX + planeX * cameraX + .000000000000001 # avoiding ZDE
             rayDirectionY = directionY + planeY * cameraX + .000000000000001 # avoiding ZDE 
 
             # In what square is the ray?
@@ -241,7 +290,7 @@ def main():
                 drawEnd = HEIGHT - 1
 
             # Wall colors 0 to 3
-            wallcolors = [ [], [150,0,0], [0,150,0], [0,0,150] ]
+            wallcolors = [ [150,0,0], [150,150,0], [150,0,0], [150,0,0] ]
             color = wallcolors[ worldMap[mapX][mapY] ]                                  
 
             # If side == 1 then ton the color down. Gives a "showShadow" an the wall.
@@ -254,6 +303,8 @@ def main():
             # Drawing the graphics                           
             pygame.draw.line(screen, color, (column,drawStart), (column, drawEnd), 2)
             column += 2
+            tempArray.append([rayPositionX, rayPositionY, mapX, mapY, perpWallDistance])
+            
 
         # Drawing HUD if showHUD is True
         if showHUD:
