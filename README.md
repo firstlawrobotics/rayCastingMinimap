@@ -17,7 +17,7 @@ I added a miniMap function that identifies cleared space, dead space, and walls 
 
 
 ### Resources
-http://www.permadi.com/tutorial/raycast/
-https://lodev.org/cgtutor/raycasting.html
+* http://www.permadi.com/tutorial/raycast/
+* https://lodev.org/cgtutor/raycasting.html
 
 
