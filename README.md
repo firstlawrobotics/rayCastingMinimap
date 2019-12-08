@@ -7,7 +7,7 @@ I added a miniMap function that identifies cleared space, dead space, and walls 
 ### Screenshots
 
 ## Actual View of Screen
-![In game screenshot](https://raw.githubusercontent.com/firstlawrobotics/rayCastingMinimap/master/screenshots/a.jpg)
+![In game screenshot](https://raw.githubusercontent.com/firstlawrobotics/rayCastingMinimap/master/screenshots/a.JPG)
 
 ## Generated MiniMap with Decay Function Enabled
 ![In game screenshot](https://raw.githubusercontent.com/firstlawrobotics/rayCastingMinimap/master/screenshots/b.png)
