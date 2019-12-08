@@ -1,25 +1,23 @@
-## PyRay - Python Raycasting Engine
+## PyRayMinimap - Python Raycasting Engine
 
-PyRay is a ray casting engine (http://en.wikipedia.org/wiki/Ray_casting
-) written in Python using the PyGame library (http://www.pygame.org/wiki/about). This is the technology used in for example in Wolfenstien (http://en.wikipedia.org/wiki/Wolfenstein_3-D).
+PyRay is a ray casting engine (http://en.wikipedia.org/wiki/Ray_casting) written in Python using the PyGame library (http://www.pygame.org/wiki/about). Code forked from https://github.com/oscr/PyRay.
 
-###Screenshots from the game:
-![In game screenshot](https://raw.githubusercontent.com/oscr/PyRay/master/screenshots/PyRay20130518111624.jpeg)
+I added a miniMap function that identifies cleared space, dead space, and walls and implements a decay function for cleared space to force agents to reprioritize it. I won't ever do anything with this because I don't have the money to train my toy reinforcement learning agents so either give me money or fork this. 
 
-![In game screenshot](https://raw.githubusercontent.com/oscr/PyRay/master/screenshots/PyRay20130518111712.jpeg)
+### Screenshots
 
-![In game screenshot](https://raw.githubusercontent.com/oscr/PyRay/master/screenshots/PyRay20130518111704.jpeg)
+## Actual View of Screen
+![In game screenshot](https://raw.githubusercontent.com/firstlawrobotics/rayCastingMinimap/master/screenshots/a.jpg)
 
-I wrote this a few years ago as a school project when I was just learning Python. Therefor not all code might be considered best practice. I don't have the time or interest to continue developing it right now, however I hope that someone will find the code useful!
+## Generated MiniMap with Decay Function Enabled
+![In game screenshot](https://raw.githubusercontent.com/firstlawrobotics/rayCastingMinimap/master/screenshots/b.png)
 
-Unfortunately I seemed to have lost my final report and thereby also lost some of my references. I would therefor like to acknowledge that there are some unnamed contributers and apologize for lack of credit to their work. I would like to thank: http://www.permadi.com/tutorial/raycast/ for providing useful information about ray casting.
+## Actual Map
+![In game screenshot](https://raw.githubusercontent.com/firstlawrobotics/rayCastingMinimap/master/screenshots/c.png)
 
-## Controls:
-    ESC – Exit program
-    F1 – Take screen shot jpg
-    F2 – Take screen shot bmp
-    F5 – Turn on shadows
-    F6 – Turn of shadows
-    F7 – Show HUD
-    F8 – Remove HUD
-    Use arrow keys to move around.
+
+### Resources
+http://www.permadi.com/tutorial/raycast/
+https://lodev.org/cgtutor/raycasting.html
+
+
