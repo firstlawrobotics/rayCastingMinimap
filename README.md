@@ -10,9 +10,15 @@ I added a miniMap function that identifies cleared space, dead space, and walls 
 ![In game screenshot](https://raw.githubusercontent.com/firstlawrobotics/rayCastingMinimap/master/screenshots/a.JPG)
 
 ## Generated MiniMap with Decay Function Enabled
+
+0 signifies deadspace, 1 signifies wall, 2-9 signfies cleared but decaying space.
+
 ![In game screenshot](https://raw.githubusercontent.com/firstlawrobotics/rayCastingMinimap/master/screenshots/b.png)
 
 ## Actual Map
+
+0 signfies no wall, anything else signifies wall. 
+
 ![In game screenshot](https://raw.githubusercontent.com/firstlawrobotics/rayCastingMinimap/master/screenshots/c.png)
 
 
