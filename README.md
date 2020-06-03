@@ -6,20 +6,19 @@ I added a miniMap function that identifies cleared space, dead space, and walls 
 
 ### Screenshots
 
-## Actual View of Screen
+
+## Heatmap Enabled Minimap with Decay Function Enabled
+
+This shows a view across the screen of an uncleared obstruction.
+
+![In game screenshot](https://raw.githubusercontent.com/firstlawrobotics/rayCastingMinimap/master/screenshots/before.png)
+
+## Map After Clearing Dead Space
+
+![In game screenshot](https://raw.githubusercontent.com/firstlawrobotics/rayCastingMinimap/master/screenshots/cleared.png)
+
+## Behind the Scenes
 ![In game screenshot](https://raw.githubusercontent.com/firstlawrobotics/rayCastingMinimap/master/screenshots/a.JPG)
-
-## Generated MiniMap with Decay Function Enabled
-
-0 signifies deadspace, 1 signifies wall, 2-9 signfies cleared but decaying space.
-
-![In game screenshot](https://raw.githubusercontent.com/firstlawrobotics/rayCastingMinimap/master/screenshots/b.png)
-
-## Actual Map
-
-0 signfies no wall, anything else signifies wall. 
-
-![In game screenshot](https://raw.githubusercontent.com/firstlawrobotics/rayCastingMinimap/master/screenshots/c.png)
 
 
 ### Resources
