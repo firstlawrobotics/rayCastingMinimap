@@ -1,6 +1,8 @@
 ## RayCast Minimap
 
-Using basic raytracing functions I added a miniMap function that identifies cleared space, dead space, and walls and implements a decay function for cleared space to force agents to reprioritize it. I don't have the money to train my reinforcement learning agents so give me money please. 
+Using basic raytracing functions (basically LIDAR) I added a miniMap function that identifies cleared space, dead space, and cover and implements a decay function for cleared space to force agents to reprioritize it. 
+
+I don't have the money to train my reinforcement learning agents so give me money please. 
 
 Long term plan is to combine this with a SLAM <https://en.wikipedia.org/wiki/Simultaneous_localization_and_mapping> algorithm and beat state of the art in any first person shooter out there.
 
