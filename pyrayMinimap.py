@@ -18,18 +18,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """ 
 
-try:
-    import math
-    import time
-    import pygame
-    from pygame.locals import *
-    import numpy as np
-    import time
-    import threading
-
-except ImportError:
-    print "PyRay could not import necessary modules"
-    raise ImportError
+import math
+import time
+import pygame
+from pygame.locals import *
+import numpy as np
+import time
+import threading
+import seaborn as sns; sns.set()
+import matplotlib
+matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
 
 keys=[False]*324
 
@@ -59,8 +58,13 @@ worldMap =  [
 
 
            
-miniMap = np.zeros([20, 20])
+miniMap = np.full([20, 20], 10)
 tempArray = [1,1000] 
+
+plt.ion()
+fig = plt.figure()
+ax = sns.heatmap(miniMap)
+fig.show() 
 
 # Closes the program 
 def close(): 
@@ -96,16 +100,25 @@ def miniMapUpdate(locationData, miniMap):
                 miniMap[rayX, rayY] = 3
             
             
-def miniMapDecay():
-    threading.Timer(5.0, miniMapDecay).start()
+	    
+def miniMapPlot():
+
+    plt.clf()
     miniMap[miniMap >= 3] += 1
-    miniMap[miniMap >= 9] = 0
-    print(miniMap)
-    
+    miniMap[miniMap >= 9] = 8
+    #print(miniMap)
+    ax = sns.heatmap(miniMap)
+    #fig.canvas.draw()
+    fig.canvas.flush_events()
+
+
+
+
+
 
 def main():
     pygame.init()
-    miniMapDecay()
+    #miniMapDecay()
     # Head Up Display information (HUD)
     font = pygame.font.SysFont("Verdana",20)
     HUD = font.render("F1 / F2 - Screenshot JPEG/BMP   F5/F6 - Shadows on/off   F7/F8 - HUD Show/Hide", True, (0,0,0))
@@ -140,6 +153,7 @@ def main():
     
 
     tempArray = [] 
+    countPlot = 0
     while True:
         # Catches user input
         # Sets keys[key] to True or False
@@ -191,13 +205,13 @@ def main():
             try:
                 pygame.image.save(screen,('PyRay' + time.strftime('%Y%m%d%H%M%S')+ '.jpeg'))
             except:
-                print "Couldn't save jpeg screenshot"
+                print("Couldn't save jpeg screenshot")
                 
         if keys[K_F2]:
             try:
                 pygame.image.save(screen,('PyRay' + time.strftime('%Y%m%d%H%M%S')+ '.bmp'))
             except:
-                print "Couldn't save bmp screenshot"
+                print("Couldn't save bmp screenshot")
 
         # showShadows - On / Off
         if keys[K_F5]:
@@ -218,8 +232,13 @@ def main():
         # Starts drawing level from 0 to < WIDTH 
         column = 0
         if tempArray!= []:
+            
+
             miniMapUpdate(tempArray, miniMap)
-              
+            if countPlot == 100:
+                countPlot = 0
+                miniMapPlot()  
+        countPlot +=1 
         tempArray = []     
         while column < WIDTH:
             cameraX = 2.0 * column / WIDTH - 1.0
@@ -231,6 +250,7 @@ def main():
             # In what square is the ray?
             mapX = int(rayPositionX)
             mapY = int(rayPositionY)
+
 
             # Delta distance calculation
             # Delta = square ( raydir * raydir) / (raydir * raydir)
@@ -304,8 +324,9 @@ def main():
             pygame.draw.line(screen, color, (column,drawStart), (column, drawEnd), 2)
             column += 2
             tempArray.append([rayPositionX, rayPositionY, mapX, mapY, perpWallDistance])
-            
 
+
+            
         # Drawing HUD if showHUD is True
         if showHUD:
             pygame.draw.rect(screen, (100,100,200), (0, HEIGHT-40, WIDTH, 40))
