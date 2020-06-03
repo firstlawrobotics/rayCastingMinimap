@@ -11,6 +11,8 @@ I added a miniMap function that identifies cleared space, dead space, and walls 
 
 This shows a view across the screen of an uncleared obstruction in the bottom right.
 
+Black indicates obstruction, and the colors gradient indicates how recently a space has been cleared, with darker colors being most recently.
+
 ![In game screenshot](https://raw.githubusercontent.com/firstlawrobotics/rayCastingMinimap/master/screenshots/before.png)
 
 ## Map After Clearing Dead Space
@@ -20,6 +22,8 @@ This shows a view across the screen of an uncleared obstruction in the bottom ri
 ## Behind the Scenes
 ![In game screenshot](https://raw.githubusercontent.com/firstlawrobotics/rayCastingMinimap/master/screenshots/a.JPG)
 
+## To Do
+The raycasting engine isn't great at detecting diagonal edges in this environment, so I could either rewrite the engine or go and find a better implementation. Not sure which I'd rather do. 
 
 ### Resources
 * http://www.permadi.com/tutorial/raycast/
