@@ -2,9 +2,11 @@
 
 Using basic raytracing functions (basically LIDAR) I added a miniMap function that identifies cleared space, dead space, and cover and implements a decay function for cleared space to force agents to reprioritize it. 
 
-I don't have the money to train my reinforcement learning agents so give me money please. 
+Basically, it allows an AI to know where it is in relation to other things it has seen and gives them a concept of cleared space and dead space. 
 
-Long term plan is to combine this with a SLAM <https://en.wikipedia.org/wiki/Simultaneous_localization_and_mapping> algorithm and beat state of the art in any first person shooter out there.
+Long term plan is to combine this with a SLAM (<https://en.wikipedia.org/wiki/Simultaneous_localization_and_mapping>) algorithm and beat state of the art in any first person shooter out there.
+
+I don't have the money to train my reinforcement learning agents so give me money please. 
 
 ## Heatmap Enabled Minimap with Decay Function Enabled
 
