@@ -9,7 +9,7 @@ I added a miniMap function that identifies cleared space, dead space, and walls 
 
 ## Heatmap Enabled Minimap with Decay Function Enabled
 
-This shows a view across the screen of an uncleared obstruction.
+This shows a view across the screen of an uncleared obstruction in the bottom right.
 
 ![In game screenshot](https://raw.githubusercontent.com/firstlawrobotics/rayCastingMinimap/master/screenshots/before.png)
 
